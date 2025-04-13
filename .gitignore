@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/DCM.Api/DCM.Api/.vs
+/DCM.Api/DCM.Api/DCM.Api/obj
+/DCM.Api/DCM.Api/DCM.Application/DCM.Application/obj/Debug/net8.0
+/DCM.Api/DCM.Api/DCM.Application/DCM.Application/obj
+/DCM.Api/DCM.Api/DCM.Core/DCM.Core/obj
+/DCM.Api/DCM.Api/DCM.Database/DCM.Database/bin/Debug
+/DCM.Api/DCM.Api/DCM.Database/DCM.Database/obj/Debug
+/DCM.Api/DCM.Api/DCM.Repository/obj
