@@ -50,7 +50,6 @@ namespace DCM.Api.Controllers
             }
         }
 
-
         /// <summary>
         /// Preview sessions by category ID.
         /// </summary>

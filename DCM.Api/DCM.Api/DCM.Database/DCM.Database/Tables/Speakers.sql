@@ -1,6 +1,0 @@
-﻿CREATE TABLE Speakers (
-    SpeakerId INT IDENTITY(1,1)  PRIMARY KEY,
-    FullName NVARCHAR(150) NOT NULL,
-    Bio NVARCHAR(MAX),
-    CreatedAt DATETIME2 DEFAULT GETDATE() 
-);
