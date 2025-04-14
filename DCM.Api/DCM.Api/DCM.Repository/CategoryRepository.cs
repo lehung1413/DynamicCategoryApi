@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DCM.Core.Const;
 using DCM.Core.Dtos;
 using DCM.Core.Repositories;
 using Microsoft.Data.SqlClient;
@@ -22,11 +23,11 @@ namespace DCM.Repository
 
             // Define parameters
             var parameters = new DynamicParameters();
-            parameters.Add("@CategoryId", id);
+            parameters.Add(ParameterName.CategoryId, id);
 
             // Execute the stored procedure
             await connection.ExecuteScalarAsync(
-                "Usp_Category_DeleteById",
+                StoreProcedureName.Usp_Category_DeleteById,
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
@@ -43,7 +44,7 @@ namespace DCM.Repository
 
             // Execute the stored procedure
             var result = await connection.QueryAsync<CategoryDto>(
-                "Usp_Category_GetAll",
+                StoreProcedureName.Usp_Category_GetAll,
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
@@ -57,11 +58,11 @@ namespace DCM.Repository
 
             // Define parameters
             var parameters = new DynamicParameters();
-            parameters.Add("@CategoryId", id);
+            parameters.Add(ParameterName.CategoryId, id);
 
             // Execute the stored procedure
             var result = await connection.QueryAsync<CategoryConditionDto>(
-                "Usp_Category_GetById",
+                StoreProcedureName.Usp_Category_GetById,
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
@@ -70,6 +71,7 @@ namespace DCM.Repository
             {
                 CategoryId = result.FirstOrDefault().CategoryId,
                 Name = result.FirstOrDefault().CategoryName,
+                Description = result.FirstOrDefault().CategoryDescription,
                 CategoryConditions = result
             };
         }
@@ -82,14 +84,14 @@ namespace DCM.Repository
 
             // Define parameters
             var parameters = new DynamicParameters();
-            parameters.Add("@CategoryId", conditions.CategoryId);
-            parameters.Add("@CategoryName", conditions.Name);
-            parameters.Add("@CategoryDescription", conditions.Description);
-            parameters.Add("@JsonData", jsonData);
+            parameters.Add(ParameterName.CategoryId, conditions.CategoryId);
+            parameters.Add(ParameterName.CategoryName, conditions.Name);
+            parameters.Add(ParameterName.CategoryDescription, conditions.Description);
+            parameters.Add(ParameterName.JsonData, jsonData);
 
             // Execute the stored procedure
             var result = await connection.QueryFirstOrDefaultAsync<int>(
-                "[Usp_Category_AddOrUpdateCategory]",
+                StoreProcedureName.Usp_Category_AddOrUpdateCategory,
                 parameters,
                 commandType: CommandType.StoredProcedure
             );

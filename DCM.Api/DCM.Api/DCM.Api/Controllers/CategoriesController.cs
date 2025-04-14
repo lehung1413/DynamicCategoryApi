@@ -1,5 +1,6 @@
 ﻿using DCM.Application.Interfaces;
 using DCM.Core.Dtos;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -20,7 +21,7 @@ namespace DCM.Api.Controllers
         }
 
         [HttpGet("")]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CategoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
@@ -36,6 +37,8 @@ namespace DCM.Api.Controllers
         }
 
         [HttpGet("{id:long}")]
+        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetById(long id)
         {
             var category = await _categoryService.GetByIdAsync(id);
@@ -47,13 +50,18 @@ namespace DCM.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(long), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Create([FromBody] CategoryDto request)
         {
-            await _categoryService.InsertOrUpdateAsync(request);
-            return Created();
+            var createdId = await _categoryService.InsertOrUpdateAsync(request);
+            return CreatedAtAction(nameof(GetById), new { id = createdId }, createdId);
         }
 
         [HttpPut("{id:long}")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Update(long id, [FromBody] CategoryDto request)
         {
             if (!ModelState.IsValid)
@@ -76,6 +84,8 @@ namespace DCM.Api.Controllers
         }
 
         [HttpDelete("{id:long}")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Delete(long id)
         {
             var deleted = await _categoryService.DeleteAsync(id);

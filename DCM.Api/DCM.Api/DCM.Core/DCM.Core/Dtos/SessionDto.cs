@@ -36,5 +36,10 @@
         /// Gets or sets the description of the session.
         /// </summary>
         public string SpeakerName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Tags of the session.
+        /// </summary>
+        public string Tags { get; set; }
     }
 }

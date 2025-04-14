@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DCM.Core.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace DCM.Core.Dtos
 {
@@ -22,7 +23,7 @@ namespace DCM.Core.Dtos
         public string ConditionOperator { get; set; } = string.Empty;
 
         [Required]
-        public int OperatorId { get; set; }
+        public OperatorId OperatorId { get; set; }
 
         public string? ValueString { get; set; }
 

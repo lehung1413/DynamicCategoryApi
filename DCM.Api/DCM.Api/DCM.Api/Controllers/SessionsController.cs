@@ -61,7 +61,6 @@ namespace DCM.Api.Controllers
         /// <response code="500">An error occurred while processing the request.</response>
         [HttpPost("previewSession")]
         [ProducesResponseType(typeof(IEnumerable<SessionDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> PreviewSession([FromBody] CategoryDto request)
         {

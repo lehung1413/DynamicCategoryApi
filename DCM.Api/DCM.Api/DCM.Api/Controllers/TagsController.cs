@@ -1,4 +1,5 @@
 ﻿using DCM.Application.Interfaces;
+using DCM.Core.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,7 +17,7 @@ namespace DCM.Api.Controllers
         }
 
         [HttpGet("")]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<DropdownDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAllTags()
         {

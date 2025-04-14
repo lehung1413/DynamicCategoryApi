@@ -8,10 +8,6 @@ namespace DCM.Application.Services
     {
         private readonly ISessionRepository _sessionRepository;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SessionService"/> class.
-        /// </summary>
-        /// <param name="sessionRepository">Repository for accessing session data.</param>
         public SessionService(ISessionRepository sessionRepository)
         {
             _sessionRepository = sessionRepository;

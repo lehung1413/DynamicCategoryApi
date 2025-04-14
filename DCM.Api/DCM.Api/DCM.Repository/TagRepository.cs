@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DCM.Core.Const;
 using DCM.Core.Dtos;
 using DCM.Core.Repositories;
 using Microsoft.Data.SqlClient;
@@ -24,7 +25,7 @@ namespace DCM.Repository
 
             // Execute the stored procedure  
             var result = await connection.QueryAsync<DropdownDto>(
-                "Usp_Tag_GetAll",
+                StoreProcedureName.Usp_Tag_GetAll,
                 null,
                 commandType: CommandType.StoredProcedure
             );
