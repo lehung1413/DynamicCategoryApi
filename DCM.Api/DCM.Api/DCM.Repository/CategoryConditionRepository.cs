@@ -30,7 +30,7 @@ namespace DCM.Repository
 
             // Execute the stored procedure
             var result = await connection.QueryAsync<int>(
-                "AddOrUpdateCategoryConditions",
+                "Usp_Category_AddOrUpdate",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );

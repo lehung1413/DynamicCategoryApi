@@ -11,6 +11,8 @@ namespace DCM.Application.Extensions
 
             // Register repositories
             services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
 
             return services;
         }

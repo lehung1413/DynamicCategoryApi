@@ -17,6 +17,11 @@ namespace DCM.Application.Services
             _sessionRepository = sessionRepository;
         }
 
+        public async Task<IEnumerable<SessionDto>> PreviewSessionAsync(CategoryDto request)
+        {
+            return await _sessionRepository.PreviewSessionAsync(request);
+        }
+
         public async Task<IEnumerable<SessionDto>> SearchByCategoryAsync(int categoryId)
         {
             return await _sessionRepository.GetSessionsByCategoryAsync(categoryId);

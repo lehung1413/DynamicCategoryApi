@@ -27,7 +27,7 @@ namespace DCM.Api.Controllers
         /// <response code="200">A list of sessions was successfully retrieved.</response>
         /// <response code="400">Invalid input data provided.</response>
         /// <response code="500">An error occurred while processing the request.</response>
-        [HttpGet("/category/{categoryId}")]
+        [HttpGet("category/{categoryId}")]
         [ProducesResponseType(typeof(IEnumerable<SessionDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -41,6 +41,33 @@ namespace DCM.Api.Controllers
             try
             {
                 var sessions = await _sessionService.SearchByCategoryAsync(categoryId);
+                return Ok(sessions);
+            }
+            catch (Exception ex)
+            {
+                // Log the error (logging should be implemented in a proper logging service)
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Preview sessions by category ID.
+        /// </summary>
+        /// <param name="request">The ID of the category to filter sessions.</param>
+        /// <returns>A list of sessions matching the criteria.</returns>
+        /// <response code="200">A list of sessions was successfully retrieved.</response>
+        /// <response code="400">Invalid input data provided.</response>
+        /// <response code="500">An error occurred while processing the request.</response>
+        [HttpPost("previewSession")]
+        [ProducesResponseType(typeof(IEnumerable<SessionDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> PreviewSession([FromBody] CategoryDto request)
+        {
+            try
+            {
+                var sessions = await _sessionService.PreviewSessionAsync(request);
                 return Ok(sessions);
             }
             catch (Exception ex)

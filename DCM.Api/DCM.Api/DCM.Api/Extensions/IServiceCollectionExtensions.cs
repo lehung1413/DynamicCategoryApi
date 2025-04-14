@@ -10,6 +10,8 @@ namespace DCM.Api.Extensions
         {
             // Register services
             services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ITagService, TagService>();
 
             // Register repositories
             services.AddRepositoryCollection();

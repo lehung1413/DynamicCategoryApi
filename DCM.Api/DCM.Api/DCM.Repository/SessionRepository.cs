@@ -4,6 +4,7 @@ using DCM.Core.Dtos;
 using DCM.Core.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace DCM.Repository
@@ -21,7 +22,7 @@ namespace DCM.Repository
             _connectionString = configuration.GetConnectionString("DCM");
         }
 
-        /// <inheritdoc />
+
         public async Task<IEnumerable<SessionDto>> GetSessionsByCategoryAsync(int categoryId)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -39,9 +40,23 @@ namespace DCM.Repository
             return sessions;
         }
 
-        Task<IEnumerable<SessionDto>> ISessionRepository.GetSessionsByCategoryAsync(int categoryId)
+        public async Task<IEnumerable<SessionDto>> PreviewSessionAsync(CategoryDto request)
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(_connectionString);
+            string procedureName = StoreProcedureName.Usp_Session_PreviewSession;
+            // Convert the list of CategoryConditionDto to JSON
+            var jsonData = JsonConvert.SerializeObject(request.CategoryConditions);
+
+            var parameters = new DynamicParameters();
+            parameters.Add(ParameterName.JsonData, jsonData);
+
+            var sessions = await connection.QueryAsync<SessionDto>(
+                procedureName,
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+
+            return sessions;
         }
     }
 }

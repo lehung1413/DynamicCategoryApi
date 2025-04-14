@@ -11,3 +11,7 @@
 /DCM.Api/DCM.Api/DCM.Database/DCM.Database/bin/Debug
 /DCM.Api/DCM.Api/DCM.Database/DCM.Database/obj/Debug
 /DCM.Api/DCM.Api/DCM.Repository/obj
+/DCM.Api/DCM.Api/DCM.Api/bin/Debug/net8.0
+/DCM.Api/DCM.Api/DCM.Application/DCM.Application/bin/Debug/net8.0
+/DCM.Api/DCM.Api/DCM.Core/DCM.Core/bin/Debug/net8.0
+/DCM.Api/DCM.Api/DCM.Repository/bin/Debug/net8.0

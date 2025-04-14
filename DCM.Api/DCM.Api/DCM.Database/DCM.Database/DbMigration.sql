@@ -10,9 +10,9 @@ CREATE TABLE Sessions (
     MaxCapacity INT,                   -- Maximum number of participants
     CurrentEnrollment INT DEFAULT 0,   -- Current number of enrolled participants
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255)  NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255)  NULL   -- User who last updated the row
 );
 
 -- Table to store speaker information
@@ -24,23 +24,23 @@ CREATE TABLE Speakers (
     Bio NVARCHAR(MAX),                 -- Biography of the speaker
     ProfilePicture NVARCHAR(512),      -- Profile picture URL of the speaker
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255)  NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255)  NULL   -- User who last updated the row
 );
 
 -- Many-to-Many relationship between Sessions and Speakers
 CREATE TABLE R_SessionSpeakers (
-    RSessionSpeakerId INT PRIMARY KEY IDENTITY(1,1),
+    RSessionSpeakerId INT IDENTITY(1,1),
     SessionId INT NOT NULL,            -- Foreign key referencing Sessions
     SpeakerId INT NOT NULL,            -- Foreign key referencing Speakers
     PRIMARY KEY (SessionId, SpeakerId),
     --FOREIGN KEY (SessionId) REFERENCES Sessions(SessionId) ON DELETE CASCADE,
     --FOREIGN KEY (SpeakerId) REFERENCES Speakers(SpeakerId) ON DELETE CASCADE,
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255)  NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255)  NULL   -- User who last updated the row
 );
 
 -- Table to store tag definitions
@@ -48,23 +48,23 @@ CREATE TABLE Tags (
     TagId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100) NOT NULL UNIQUE, -- Name of the tag
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255)  NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255)  NULL   -- User who last updated the row
 );
 
 -- Many-to-Many relationship between Sessions and Tags
 CREATE TABLE R_SessionTags (
-    RSessionTagId INT PRIMARY KEY IDENTITY(1,1),
+    RSessionTagId INT IDENTITY(1,1),
     SessionId INT NOT NULL,            -- Foreign key referencing Sessions
     TagId INT NOT NULL,                -- Foreign key referencing Tags
     PRIMARY KEY (SessionId, TagId),
     --FOREIGN KEY (SessionId) REFERENCES Sessions(SessionId) ON DELETE CASCADE,
     --FOREIGN KEY (TagId) REFERENCES Tags(TagId) ON DELETE CASCADE,
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255)  NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255)  NULL   -- User who last updated the row
 );
 
 -- Table to store category metadata
@@ -73,23 +73,23 @@ CREATE TABLE Categories (
     Name NVARCHAR(255) NOT NULL,       -- Name of the category
     Description NVARCHAR(MAX),         -- Description of the category
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255)  NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255)  NULL   -- User who last updated the row
 );
 
 -- Many-to-Many relationship between Sessions and Tags
-CREATE TABLE R_SpearkerTags (
-    RSpearkerTagId INT PRIMARY KEY IDENTITY(1,1),
-    SessionId INT NOT NULL,            -- Foreign key referencing Sessions
+CREATE TABLE R_SpeakerTags (
+    RSpeakerTagId INT IDENTITY(1,1),
+    SpeakerId INT NOT NULL,            -- Foreign key referencing Speakers
     TagId INT NOT NULL,                -- Foreign key referencing Tags
-    PRIMARY KEY (SessionId, TagId),
-    FOREIGN KEY (SessionId) REFERENCES Sessions(SessionId) ON DELETE CASCADE,
+    PRIMARY KEY (SpeakerId, TagId),
+    FOREIGN KEY (SpeakerId) REFERENCES Sessions(SessionId) ON DELETE CASCADE,
     FOREIGN KEY (TagId) REFERENCES Tags(TagId) ON DELETE CASCADE,
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255) NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255) NULL   -- User who last updated the row
 );
 
 
@@ -97,31 +97,33 @@ CREATE TABLE R_SpearkerTags (
 CREATE TABLE MasterData (
     MasterDataId INT PRIMARY KEY IDENTITY(1,1),
     Type NVARCHAR(50) NOT NULL CHECK (Type IN ('Field', 'Operator')), -- Type of the entry (Field or Operator)
+    DataId INT NOT NULL,
     Name NVARCHAR(100) NOT NULL UNIQUE,   -- Name of the field or operator
     Description NVARCHAR(MAX),            -- Description of the field or operator
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255) NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255) NULL   -- User who last updated the row
 );
 
 -- Table to store filter conditions for categories
 CREATE TABLE CategoryConditions (
     ConditionId INT PRIMARY KEY IDENTITY(1,1),
     CategoryId INT NOT NULL,                 -- Foreign key referencing Categories
-    GroupId INT NOT NULL,                    -- Group identifier for the condition
-    ParentGroupId INT NULL,                  -- Parent group identifier (if nested)
+    --GroupId INT NOT NULL,                    -- Group identifier for the condition
+    --ParentGroupId INT NULL,                  -- Parent group identifier (if nested)
+    FieldName NVARCHAR(20) NOT NULL,       
     OrderIndex INT NOT NULL DEFAULT 0,       -- Order of the condition within the group
-    LogicalOperator NVARCHAR(10) NULL,       -- Logical operator (AND, OR)
-    OperatorId INT NOT NULL,          -- Foreign key referencing MasterData (Field or Operator)
+    ConditionOperator NVARCHAR(10) NULL,       -- Logical operator (AND, OR)
+    OperatorId INT NOT NULL,                -- Foreign key referencing MasterData (Field or Operator)
     Value_String NVARCHAR(MAX) NULL,         -- String value for the condition (e.g., Tags, Location)
     Value_Number DECIMAL(18, 2) NULL,        -- Numeric value for the condition
     Value_DateTime_From DATETIME NULL,       -- Start date for conditions like time range
     Value_DateTime_To DATETIME NULL,         -- End date for conditions like time range
     CreatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was created
-    CreatedBy NVARCHAR(255) NOT NULL,  -- User who created the row
+    CreatedBy NVARCHAR(255) NULL,  -- User who created the row
     UpdatedAt DATETIME DEFAULT GETDATE(), -- Timestamp when the row was last updated
-    UpdatedBy NVARCHAR(255) NOT NULL   -- User who last updated the row
+    UpdatedBy NVARCHAR(255) NULL   -- User who last updated the row
     --FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId) ON DELETE CASCADE,
     --FOREIGN KEY (FieldOrOperatorId) REFERENCES MasterData(MasterDataId) ON DELETE NO ACTION
 );
@@ -138,17 +140,18 @@ CREATE TABLE AuditLogs (
 );
 
 -- Fields
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Field', 'SessionName', 'Name of the session');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Field', 'Tags', 'Tags associated with the session');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Field', 'Location', 'Location of the session');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Field', 'Time Range', 'Time range of the session');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Field',1, 'SessionName', 'Name of the session');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Field', 2,'Tags', 'Tags associated with the session');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Field', 3,'Location', 'Location of the session');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Field', 4,'StartDate', 'Time range of the session');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Field', 5,'EndDate', 'Time range of the session');
 
 -- Operators
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Operator', 'Include', 'Includes the specified values');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Operator', 'Exclude', 'Excludes the specified values');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Operator', '>=', 'Greater than or equal to');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Operator', '<=', 'Less than or equal to');
-INSERT INTO MasterData (Type, Name, Description) VALUES ('Operator', 'CONTAINS', 'Contains the specified string');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Operator',1, 'Include', 'Includes the specified values');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Operator',2, 'Exclude', 'Excludes the specified values');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Operator',3, '>=', 'Greater than or equal to');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Operator',4, '<=', 'Less than or equal to');
+INSERT INTO MasterData (Type,DataId, Name, Description) VALUES ('Operator',5, 'CONTAINS', 'Contains the specified string');
 
 /*=======================SEED data===============================*/
 -- Insert sample Tags
@@ -176,7 +179,7 @@ VALUES
 ('Big Data and DevOps', 'Chicago', '2025-08-10 10:00:00', '2025-08-10 13:00:00', 'Integrating Big Data analytics with DevOps practices.', 1, 150, 80, GETDATE(), 'admin', GETDATE(), 'admin');
 
 -- Insert sample Session-Speaker relationships
-INSERT INTO SessionSpeakers (SessionId, SpeakerId, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy)
+INSERT INTO R_SessionSpeakers (SessionId, SpeakerId, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy)
 VALUES
 (1, 1, GETDATE(), 'admin', GETDATE(), 'admin'), -- John Doe -> Cloud in 2025
 (1, 3, GETDATE(), 'admin', GETDATE(), 'admin'), -- Alice Johnson -> Cloud in 2025
@@ -184,7 +187,7 @@ VALUES
 (3, 2, GETDATE(), 'admin', GETDATE(), 'admin'); -- Jane Smith -> Big Data and DevOps
 
 -- Insert sample Session-Tag relationships
-INSERT INTO SessionTags (SessionId, TagId, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy)
+INSERT INTO R_SessionTags (SessionId, TagId, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy)
 VALUES
 (1, (SELECT TagId FROM Tags WHERE Name = 'Cloud'), GETDATE(), 'admin', GETDATE(), 'admin'),
 (1, (SELECT TagId FROM Tags WHERE Name = 'Azure'), GETDATE(), 'admin', GETDATE(), 'admin'),
@@ -193,7 +196,7 @@ VALUES
 (3, (SELECT TagId FROM Tags WHERE Name = 'DevOps'), GETDATE(), 'admin', GETDATE(), 'admin');
 
 -- Insert sample Speaker-Tag relationships
-INSERT INTO SpeakerTags (SpeakerId, TagId, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy)
+INSERT INTO R_SpeakerTags (SpeakerId, TagId, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy)
 VALUES
 (1, (SELECT TagId FROM Tags WHERE Name = 'Cloud'), GETDATE(), 'admin', GETDATE(), 'admin'),
 (1, (SELECT TagId FROM Tags WHERE Name = 'AI'), GETDATE(), 'admin', GETDATE(), 'admin'),

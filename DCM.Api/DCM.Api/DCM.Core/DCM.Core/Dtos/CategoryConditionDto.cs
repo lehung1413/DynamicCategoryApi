@@ -8,28 +8,28 @@ namespace DCM.Core.Dtos
 
         [Required]
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
+        public string CategoryDescription { get; set; } = string.Empty;
 
         [Required]
-        public int GroupId { get; set; }
-
-        public int? ParentGroupId { get; set; }
+        public string FieldName { get; set; } = string.Empty;
 
         [Required]
         public int OrderIndex { get; set; }
 
         [Required]
         [MaxLength(10)]
-        public string LogicalOperator { get; set; } = string.Empty;
+        public string ConditionOperator { get; set; } = string.Empty;
 
         [Required]
-        public int FieldOrOperatorId { get; set; }
+        public int OperatorId { get; set; }
 
-        public string? Value_String { get; set; }
+        public string? ValueString { get; set; }
 
-        public decimal? Value_Number { get; set; }
+        public decimal? ValueNumber { get; set; }
 
-        public DateTime? Value_DateTime_From { get; set; }
+        public DateTime? ValueDateTimeFrom { get; set; }
 
-        public DateTime? Value_DateTime_To { get; set; }
+        public DateTime? ValueDateTimeTo { get; set; }
     }
 }

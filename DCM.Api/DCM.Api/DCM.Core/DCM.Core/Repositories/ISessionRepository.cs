@@ -1,4 +1,4 @@
-﻿using DCM.Application.Dtos;
+﻿using DCM.Core.Dtos;
 
 
 namespace DCM.Core.Repositories
@@ -11,5 +11,6 @@ namespace DCM.Core.Repositories
         /// <param name="categoryId">The ID of the category to filter sessions.</param>
         /// <returns>A list of sessions matching the criteria.</returns>
         public Task<IEnumerable<SessionDto>> GetSessionsByCategoryAsync(int categoryId);
+        public Task<IEnumerable<SessionDto>> PreviewSessionAsync(CategoryDto request);
     }
 }

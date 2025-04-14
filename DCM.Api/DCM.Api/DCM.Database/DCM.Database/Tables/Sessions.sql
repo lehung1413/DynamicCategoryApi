@@ -1,5 +1,5 @@
 ﻿CREATE TABLE Sessions (
-    Id INT IDENTITY(1,1)  PRIMARY KEY,
+    SessionId INT IDENTITY(1,1)  PRIMARY KEY,
     Title NVARCHAR(200) NOT NULL,
     Description NVARCHAR(MAX),
     Location NVARCHAR(100) NOT NULL,
