@@ -1,6 +1,6 @@
-﻿namespace DCM.Core.Dtos
+﻿namespace DCM.Core.Entities
 {
-    public class SessionDto
+    public class Session
     {
         /// <summary>
         /// Gets or sets the ID of the session.

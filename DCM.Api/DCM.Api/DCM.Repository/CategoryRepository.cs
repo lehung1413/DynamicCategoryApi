@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using DCM.Core.Const;
-using DCM.Core.Dtos;
+using DCM.Core.Entities;
 using DCM.Core.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +35,7 @@ namespace DCM.Repository
             return true;
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetAllAsync()
+        public async Task<IEnumerable<Category>> GetAllAsync()
         {
             using var connection = new SqlConnection(_connectionString);
 
@@ -43,7 +43,7 @@ namespace DCM.Repository
             var parameters = new DynamicParameters();
 
             // Execute the stored procedure
-            var result = await connection.QueryAsync<CategoryDto>(
+            var result = await connection.QueryAsync<Category>(
                 StoreProcedureName.Usp_Category_GetAll,
                 parameters,
                 commandType: CommandType.StoredProcedure
@@ -52,7 +52,7 @@ namespace DCM.Repository
             return result;
         }
 
-        public async Task<CategoryDto> GetByIdAsync(long id)
+        public async Task<Category> GetByIdAsync(long id)
         {
             using var connection = new SqlConnection(_connectionString);
 
@@ -61,13 +61,13 @@ namespace DCM.Repository
             parameters.Add(ParameterName.CategoryId, id);
 
             // Execute the stored procedure
-            var result = await connection.QueryAsync<CategoryConditionDto>(
+            var result = await connection.QueryAsync<CategoryCondition>(
                 StoreProcedureName.Usp_Category_GetById,
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
 
-            return new CategoryDto()
+            return new Category()
             {
                 CategoryId = result.FirstOrDefault().CategoryId,
                 Name = result.FirstOrDefault().CategoryName,
@@ -76,7 +76,7 @@ namespace DCM.Repository
             };
         }
 
-        public async Task<int> InsertOrUpdateAsync(CategoryDto conditions)
+        public async Task<int> InsertOrUpdateAsync(Category conditions)
         {
             using var connection = new SqlConnection(_connectionString);
             // Convert the list of CategoryConditionDto to JSON

@@ -1,10 +1,7 @@
-﻿using DCM.Application.Interfaces;
-using DCM.Core.Dtos;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using DCM.Application.Dtos;
+using DCM.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DCM.Api.Controllers
 {

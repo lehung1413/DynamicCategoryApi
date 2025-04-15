@@ -1,4 +1,5 @@
 using DCM.Api.Extensions;
+using DCM.Application.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
+// Register Mapster
+MapsterConfig.Configure();
 
 var app = builder.Build();
 

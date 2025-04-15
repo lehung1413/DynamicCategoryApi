@@ -1,12 +1,12 @@
-﻿using DCM.Core.Dtos;
+﻿using DCM.Core.Entities;
 
 namespace DCM.Core.Repositories
 {
     public interface ICategoryRepository
     {
-        Task<IEnumerable<CategoryDto>> GetAllAsync();
-        Task<CategoryDto> GetByIdAsync(long id);
-        Task<int> InsertOrUpdateAsync(CategoryDto request);
+        Task<IEnumerable<Category>> GetAllAsync();
+        Task<Category> GetByIdAsync(long id);
+        Task<int> InsertOrUpdateAsync(Category request);
         Task<bool> DeleteAsync(long id);
     }
 }
