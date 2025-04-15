@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using DCM.Core.Const;
-using DCM.Core.Dtos;
+using DCM.Core.Entities;
 using DCM.Core.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +23,7 @@ namespace DCM.Repository
         }
 
 
-        public async Task<IEnumerable<SessionDto>> GetSessionsByCategoryAsync(int categoryId)
+        public async Task<IEnumerable<Session>> GetSessionsByCategoryAsync(int categoryId)
         {
             using var connection = new SqlConnection(_connectionString);
             string procedureName = StoreProcedureName.Usp_Category_SearchById;
@@ -31,7 +31,7 @@ namespace DCM.Repository
             var parameters = new DynamicParameters();
             parameters.Add(ParameterName.CategoryId, categoryId, DbType.Int32);
 
-            var sessions = await connection.QueryAsync<SessionDto>(
+            var sessions = await connection.QueryAsync<Session>(
                 procedureName,
                 parameters,
                 commandType: CommandType.StoredProcedure
@@ -40,7 +40,7 @@ namespace DCM.Repository
             return sessions;
         }
 
-        public async Task<IEnumerable<SessionDto>> PreviewSessionAsync(CategoryDto request)
+        public async Task<IEnumerable<Session>> PreviewSessionAsync(Category request)
         {
             using var connection = new SqlConnection(_connectionString);
             string procedureName = StoreProcedureName.Usp_Session_PreviewSession;
@@ -50,7 +50,7 @@ namespace DCM.Repository
             var parameters = new DynamicParameters();
             parameters.Add(ParameterName.JsonData, jsonData);
 
-            var sessions = await connection.QueryAsync<SessionDto>(
+            var sessions = await connection.QueryAsync<Session>(
                 procedureName,
                 parameters,
                 commandType: CommandType.StoredProcedure

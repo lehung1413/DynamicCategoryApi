@@ -1,4 +1,4 @@
-﻿using DCM.Core.Dtos;
+﻿using DCM.Application.Dtos;
 
 namespace DCM.Application.Interfaces
 {

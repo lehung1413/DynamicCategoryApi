@@ -1,6 +1,7 @@
-﻿using DCM.Application.Interfaces;
-using DCM.Core.Dtos;
+﻿using DCM.Application.Dtos;
+using DCM.Application.Interfaces;
 using DCM.Core.Repositories;
+using Mapster;
 
 namespace DCM.Application.Services
 {
@@ -15,7 +16,7 @@ namespace DCM.Application.Services
 
         public async Task<IEnumerable<DropdownDto>> GetAllTagsAsync()
         {
-            return await _tagRepository.GetAllTagsAsync();
+            return (await _tagRepository.GetAllTagsAsync()).Adapt<IEnumerable<DropdownDto>>();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using DCM.Application.Interfaces;
-using DCM.Core.Dtos;
+﻿using DCM.Application.Dtos;
+using DCM.Application.Interfaces;
+using DCM.Core.Entities;
 using DCM.Core.Repositories;
+using Mapster;
 
 namespace DCM.Application.Services
 {
@@ -15,12 +17,13 @@ namespace DCM.Application.Services
 
         public async Task<IEnumerable<SessionDto>> PreviewSessionAsync(CategoryDto request)
         {
-            return await _sessionRepository.PreviewSessionAsync(request);
+            var category = request.Adapt<Category>();
+            return (await _sessionRepository.PreviewSessionAsync(category)).Adapt<IEnumerable<SessionDto>>();
         }
 
         public async Task<IEnumerable<SessionDto>> SearchByCategoryAsync(int categoryId)
         {
-            return await _sessionRepository.GetSessionsByCategoryAsync(categoryId);
+            return (await _sessionRepository.GetSessionsByCategoryAsync(categoryId)).Adapt<IEnumerable<SessionDto>>();
         }
     }
 }

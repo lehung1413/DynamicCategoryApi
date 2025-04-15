@@ -1,6 +1,8 @@
-﻿using DCM.Application.Interfaces;
-using DCM.Core.Dtos;
+﻿using DCM.Application.Dtos;
+using DCM.Application.Interfaces;
+using DCM.Core.Entities;
 using DCM.Core.Repositories;
+using Mapster;
 
 namespace DCM.Application.Services
 {
@@ -15,7 +17,8 @@ namespace DCM.Application.Services
 
         public async Task<int> InsertOrUpdateAsync(CategoryDto request)
         {
-            return await _categoryRepository.InsertOrUpdateAsync(request);
+            var category = request.Adapt<Category>();
+            return await _categoryRepository.InsertOrUpdateAsync(category);
         }
 
         public async Task<bool> DeleteAsync(long id)
@@ -25,12 +28,12 @@ namespace DCM.Application.Services
 
         public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
-            return await _categoryRepository.GetAllAsync();
+            return (await _categoryRepository.GetAllAsync()).Adapt<List<CategoryDto>>();
         }
 
         public async Task<CategoryDto> GetByIdAsync(long id)
         {
-            return await _categoryRepository.GetByIdAsync(id);
+            return (await _categoryRepository.GetByIdAsync(id)).Adapt<CategoryDto>(); ;
         }
     }
 }

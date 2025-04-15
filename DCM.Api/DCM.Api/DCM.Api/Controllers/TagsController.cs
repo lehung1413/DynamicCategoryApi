@@ -1,5 +1,5 @@
-﻿using DCM.Application.Interfaces;
-using DCM.Core.Dtos;
+﻿using DCM.Application.Dtos;
+using DCM.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

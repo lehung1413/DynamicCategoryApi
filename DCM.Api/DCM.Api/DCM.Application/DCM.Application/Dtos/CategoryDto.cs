@@ -1,4 +1,4 @@
-﻿namespace DCM.Core.Dtos
+﻿namespace DCM.Application.Dtos
 {
     public class CategoryDto
     {

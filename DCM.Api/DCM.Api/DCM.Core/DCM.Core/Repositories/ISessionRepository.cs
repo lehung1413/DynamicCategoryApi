@@ -1,4 +1,4 @@
-﻿using DCM.Core.Dtos;
+﻿using DCM.Core.Entities;
 
 
 namespace DCM.Core.Repositories
@@ -10,7 +10,7 @@ namespace DCM.Core.Repositories
         /// </summary>
         /// <param name="categoryId">The ID of the category to filter sessions.</param>
         /// <returns>A list of sessions matching the criteria.</returns>
-        public Task<IEnumerable<SessionDto>> GetSessionsByCategoryAsync(int categoryId);
-        public Task<IEnumerable<SessionDto>> PreviewSessionAsync(CategoryDto request);
+        public Task<IEnumerable<Session>> GetSessionsByCategoryAsync(int categoryId);
+        public Task<IEnumerable<Session>> PreviewSessionAsync(Category request);
     }
 }

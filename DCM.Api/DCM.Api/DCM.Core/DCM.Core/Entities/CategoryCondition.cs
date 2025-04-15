@@ -1,9 +1,9 @@
 ﻿using DCM.Core.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace DCM.Core.Dtos
+namespace DCM.Core.Entities
 {
-    public class CategoryConditionDto
+    public class CategoryCondition
     {
         public int? CategoryConditionId { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using DCM.Core.Const;
-using DCM.Core.Dtos;
+using DCM.Core.Entities;
 using DCM.Core.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +16,7 @@ namespace DCM.Repository
             _connectionString = configuration.GetConnectionString("DCM") ?? throw new ArgumentNullException(nameof(configuration), "Connection String cannot be null.");
         }
 
-        public async Task<IEnumerable<DropdownDto>> GetAllTagsAsync()
+        public async Task<IEnumerable<Dropdown>> GetAllTagsAsync()
         {
             using var connection = new SqlConnection(_connectionString);
 
@@ -24,7 +24,7 @@ namespace DCM.Repository
             var parameters = new DynamicParameters();
 
             // Execute the stored procedure  
-            var result = await connection.QueryAsync<DropdownDto>(
+            var result = await connection.QueryAsync<Dropdown>(
                 StoreProcedureName.Usp_Tag_GetAll,
                 null,
                 commandType: CommandType.StoredProcedure
